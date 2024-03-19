@@ -23,6 +23,7 @@ public class ExecuteTest {
     public static WebDriver driver = null;
     public static String currentScreenshotPath = null;
     static Properties allObjects = null;
+    static int testCaseCount = 0;
 
     public static void main(String[] args) {
 
@@ -53,8 +54,8 @@ public class ExecuteTest {
             Sheet controllerSheet = excel.getSheet("Controller");
 
             /* Count Number Of Test Cases available in the Controller Sheet */
-            int testCaseCount = excel.getRowCount("Controller");
-            System.out.println("Test Case Count : " + testCaseCount);
+            testCaseCount = excel.getRowCount("Controller");
+            System.out.println("Test Case Count : " + (testCaseCount-4));
             int tcColumnCount = excel.getColumnCount("Controller");
 
             /* Create a column as 'Status' in the Controller Sheet and customize it */
@@ -158,7 +159,9 @@ public class ExecuteTest {
             System.out.println("Close Browser --- " + testStepStatus);
 
         } finally {
-
+	    for(int i=0; i<=testCaseCount-4; i++){
+                excel.autoFitColumn(i);
+            }
             excel.generateReport(Constant.excelReportPath);
             excel.closeWorkbook();
 
